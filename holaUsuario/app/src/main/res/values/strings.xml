@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">holaUsuario</string>
+    <string name="hintPersonalizado">Introduce tu nombre</string>
+    <string name="holaUsuarioText">Hola Usuario\n</string>
+    <string name="aceptar"/>
+    <string name="botonAceptar">Aceptar\n</string>
+    <string name="introducirNombre">introducirNombre</string>
+    <string name="Hola">Hola</string>
+    <string name="Volver">Volver Atrás</string>
+</resources>
