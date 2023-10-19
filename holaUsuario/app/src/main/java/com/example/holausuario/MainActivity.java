@@ -15,11 +15,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+    /**
+     * Método que recibe el texto de un textInputEditText, comprueba que no este vacio, para luego mandarlo
+     * a la segunda actividad.
+     * @param view view
+     * */
      public void introducirNombre(View view){
         TextInputEditText textInputEditText=findViewById(R.id.textInputEditText);
-        String nombre= Objects.requireNonNull(textInputEditText.getText()).toString();
+        String nombre;
+        try {
+            nombre=Objects.requireNonNull(textInputEditText.getText()).toString();
+        }catch (NullPointerException err){
+            return;
+        }
         Intent actividad2 = new Intent(this, MainActivity2.class);
-         actividad2.putExtra("nombre", nombre);
+        actividad2.putExtra("nombre", nombre);
         startActivity(actividad2);
 
     }
