@@ -1,0 +1,64 @@
+protocolos de acceso a datos
+		
+		ODBC- open database conectivity (C)
+
+		JDBC- java database conectivity (Java)
+			
+			Aplicacion-conector JDBC-SGBD
+			
+			Applet de java (navegador web)-servidor de aplicaciones- jdbc-SGBD
+
+4 tipos de drivers jdbc
+
+	JDCB-ODBC: driver propio de java que usa un protocolo de acceso odbc, cuando hay mezcla de codigo en una aplicacion;
+
+	Nativo: escrito en java;
+	
+	En red: jdbc net pure driver: para las applets , protocolos de acceso a internet, HTTP;
+
+	thin: puro de java. No exige instalacion en el cliente
+
+
+tipo uno y dos no se usan mucho
+
+
+
+Drive manager-crea - conenection- crea- statement- crea - result 
+
+connection establece enlace a bbdd
+
+Statement - sql- driver - bdd
+
+bdd- driver - datos -result
+
+
+1. Importar clases.
+2. Driver manager 
+3. Idenrificar tipo de datos
+4. Crear objeto connection
+5. crear objeto statement
+6. ejecuta consulta con objeto statement.
+7. recupera resultados en resultset
+8. libera objeto statement 
+9. liberar objeto connection 
+
+
+Clases e interfaces que intervienen
+
+driver
+drivermanager
+driverpropertyinfo
+connection
+databasemetadata
+Statement
+PreparedStatement
+CallableStatement
+ResultSet
+ResultSetMetaData
+
+Descripciones? 
+
+documentacion oracle
+
+docs.oracle.com
+
