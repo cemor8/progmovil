@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
     public void meterSigno(View view) {
-        System.out.println(this.numeroConstruir);
         TextView viewOperacion= findViewById(R.id.mostrarOperacion);
         Button btn = (Button) view;
         if(!this.numeroConstruir.isEmpty()&&String.valueOf(this.numeroConstruir.charAt(0)).equals("√")){
@@ -30,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
         if(this.mostrarOperacion.isEmpty() ||
                 (!Character.isDigit(this.mostrarOperacion.charAt(this.mostrarOperacion.length()-1)) && this.mostrarOperacion.length()>=2 && Character.isDigit(this.mostrarOperacion.charAt(this.mostrarOperacion.length()-2)))
         ) {
-
             switch (String.valueOf(btn.getText())) {
                 case "+" :
                 case "-":
                     this.numeroConstruir += btn.getText();
-                    System.out.println(this.numeroConstruir);
                     this.mostrarOperacion+=btn.getText();
                     viewOperacion.setText(this.mostrarOperacion);
                     return;
@@ -76,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view view
      * */
     public void meterNumero(View view){
-
         Button btn= (Button) view;
         TextView viewOperacion= findViewById(R.id.mostrarOperacion);
         this.numeroConstruir+=btn.getText();
@@ -95,11 +91,25 @@ public class MainActivity extends AppCompatActivity {
         TextView viewOperacion= findViewById(R.id.mostrarOperacion);
         viewOperacion.setText("");
     }
-    public void eliminarUltimo(){
-        if(Character.isDigit(this.mostrarOperacion.charAt(this.mostrarOperacion.length()-1))||
-                String.valueOf(this.mostrarOperacion.charAt(this.mostrarOperacion.length()-1)).equals("√")){
-                  this.numeroConstruir=this.numeroConstruir.substring(0,this.numeroConstruir.length()-2);
-        }else {
+    public void eliminarUltimo(View view){
+        TextView viewOperacion= findViewById(R.id.mostrarOperacion);
+        System.out.println("ogla");
+        if(this.numeroConstruir.isEmpty()){
+            if(this.operadores.isEmpty()){
+                return;
+            }
+            this.operadores.remove(this.operadores.get(this.operadores.size()-1));
+            this.numeroConstruir=this.numeros.get(this.numeros.size()-1);
+            this.numeros.remove(this.numeros.get(this.numeros.size()-1));
+            this.mostrarOperacion=this.mostrarOperacion.substring(0,this.mostrarOperacion.length()-1);
+            viewOperacion.setText(this.mostrarOperacion);
+
+        }else{
+            System.out.println(this.mostrarOperacion);
+            this.numeroConstruir=this.numeroConstruir.substring(0,this.numeroConstruir.length()-1);
+            this.mostrarOperacion=this.mostrarOperacion.substring(0,this.mostrarOperacion.length()-1);
+            viewOperacion.setText(this.mostrarOperacion);
+
 
         }
     }
@@ -113,17 +123,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(this.operadores.isEmpty()){
-            if(String.valueOf(this.numeros.get(0).charAt(0)).equals("√")){
+            if(String.valueOf(this.numeros.get(0).charAt(0)).equals("√")&&this.numeros.get(0).length()>1){
                 try {
 
                     String numero=String.valueOf(this.numeros.get(0).charAt(1));
-                    System.out.println(numero);
                     double numeroParseadoPrimero=Double.parseDouble(numero);
                     numeroParseadoPrimero=Math.sqrt(numeroParseadoPrimero);
-
                     resultado=numeroParseadoPrimero;
                 }catch (Exception err){
-                    System.out.println("adios");
+                    this.eliminarTotal(view);
                     return;
                 }
 
@@ -131,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     resultado=Double.parseDouble(this.numeros.get(0));
                 }catch (Exception err){
+                    this.eliminarTotal(view);
                     return;
                 }
             }
-            System.out.println(resultado);
+
             viewOperacion.setText(String.valueOf(resultado));
             this.numeroConstruir="";
             this.mostrarOperacion=("");
@@ -144,47 +153,50 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < this.operadores.size(); i++) {
-            if(String.valueOf(this.numeros.get(i).charAt(0)).equals("√")){
+
+            if(String.valueOf(this.numeros.get(i).charAt(0)).equals("√")&&this.numeros.get(i).length()>1){
                 try {
                     String numeroStringPrimero=this.numeros.get(i).substring(1);
                     Double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
                     numeroParseadoPrimero=Math.sqrt(numeroParseadoPrimero);
                     this.numeros.set(i,String.valueOf(numeroParseadoPrimero));
                 }catch (Exception err){
+                    this.eliminarTotal(view);
                     return;
                 }
 
-            }else if(String.valueOf(this.numeros.get(i+1).charAt(0)).equals("√")){
+            }else if(String.valueOf(this.numeros.get(i+1).charAt(0)).equals("√")&&this.numeros.get(i+1).length()>1){
                 try {
                     String numeroStringSegundo=this.numeros.get(i+1).substring(1);
                     Double numeroParseadoSegundo=Double.parseDouble(numeroStringSegundo);
                     numeroParseadoSegundo=Math.sqrt(numeroParseadoSegundo);
                     this.numeros.set(i+1,String.valueOf(numeroParseadoSegundo));
                 }catch (Exception err){
+                    this.eliminarTotal(view);
                     return;
                 }
 
             }else if(this.numeros.get(i).length()>2 &&String.valueOf(this.numeros.get(i).charAt(1)).equals("√")){
                 try {
-                    String numeroStringPrimero=this.numeros.get(i).charAt(0)+this.numeros.get(i).substring(2);
-                    Double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
+                    String signo=String.valueOf(this.numeros.get(i).charAt(0));
+                    String numeroStringPrimero=this.numeros.get(i).substring(2);
+                    double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
                     numeroParseadoPrimero=Math.sqrt(numeroParseadoPrimero);
-                    this.numeros.set(i,String.valueOf(numeroParseadoPrimero));
+                    this.numeros.set(i,signo+numeroParseadoPrimero);
                 }catch (Exception err){
-                    System.out.println("bioe");
+                    this.eliminarTotal(view);
                     return;
                 }
 
-            }else if(this.numeros.get(i+1).length()>2&&String.valueOf(this.numeros.get(i+1).charAt(0)).equals("√")){
+            }else if(this.numeros.get(i+1).length()>2&&String.valueOf(this.numeros.get(i+1).charAt(1)).equals("√")){
                 try {
-                    System.out.println(this.numeros.get(i));
-                    System.out.println(this.numeros.get(i+1).charAt(0)+this.numeros.get(i+1).substring(2));
-                    String numeroStringPrimero=this.numeros.get(i+1).charAt(0)+this.numeros.get(i+1).substring(2);
-                    Double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
+                    String signo=String.valueOf(this.numeros.get(i+1).charAt(0));
+                    String numeroStringPrimero=this.numeros.get(i+1).substring(2);
+                    double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
                     numeroParseadoPrimero=Math.sqrt(numeroParseadoPrimero);
-                    this.numeros.set(i+1,String.valueOf(numeroParseadoPrimero));
+                    this.numeros.set(i+1,signo+numeroParseadoPrimero);
                 }catch (Exception err){
-                    System.out.println("bioe");
+                    this.eliminarTotal(view);
                     return;
                 }
 
@@ -196,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 num1 = Double.parseDouble(this.numeros.get(i));
                 num2 = Double.parseDouble(this.numeros.get(i + 1));
             }catch (Exception err){
+                this.eliminarTotal(view);
                 return;
             }
 
@@ -216,7 +229,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case "/" :
                     if(num2==0){
-                        viewOperacion.setText("Resultado indefinido");
+                        String texto="Error";
+                        viewOperacion.setText(texto);
                         return;
                     }
                     resultado+=num1/num2;

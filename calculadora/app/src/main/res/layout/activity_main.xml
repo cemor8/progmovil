@@ -124,7 +124,8 @@
                 android:layout_margin="4dp"
                 android:layout_height="64dp" android:id="@+id/btnEliminarUltimo"
                 app:layout_row="1"
-                app:layout_column="3" android:backgroundTint="#f7bd56" app:cornerRadius="50dp"/>
+                app:layout_column="3" android:backgroundTint="#f7bd56" app:cornerRadius="50dp"
+                android:onClick="eliminarUltimo"/>
         <Button
                 android:text="="
                 android:layout_width="68dp"
