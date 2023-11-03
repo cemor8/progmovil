@@ -1,14 +1,11 @@
 package com.example.calculadora;
-
-import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String mostrarOperacion="";
@@ -26,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
      * pertenece al numero, se añade a la lista de los operadores
      * */
     public void meterSigno(View view) {
-        System.out.println(this.numeroConstruir);
         TextView viewOperacion= findViewById(R.id.mostrarOperacion);
         Button btn = (Button) view;
 
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                     viewOperacion.setText(this.mostrarOperacion);
                     return;
                 case "√":
-                    System.out.println("hola");
                     break;
                 default:
                     return;
@@ -109,9 +104,6 @@ public class MainActivity extends AppCompatActivity {
      * */
     public void eliminarUltimo(View view){
         TextView viewOperacion= findViewById(R.id.mostrarOperacion);
-        System.out.println(this.numeros);
-        System.out.println(this.operadores);
-        System.out.println(this.numeroConstruir);
         if(this.numeroConstruir.isEmpty()){
             if(this.operadores.isEmpty()){
                 return;
@@ -138,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
      * Método que se encarga de ir haciendo las operaciones, comprueba que la sintaxis este correcta
      * */
     public void calcular(View view){
-        TextView viewOperacion= findViewById(R.id.mostrarOperacion);
-        Double resultado=0.0;
+        double resultado=0.0;
         if (this.numeroConstruir.isEmpty()){
             this.eliminarTotal(view);
             return;
@@ -151,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if(this.operadores.isEmpty()){
-            /**
+            /*
              * si no hay operadores devuelve el valor del numero introducido, comprueba que el primer caracter
              * sea el signo o la raiz cuadrada para operar y luego volve a almacenar su valor en la lista
              * sin el signo de la raiz.
@@ -187,21 +178,20 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             }
-
-            viewOperacion.setText(String.valueOf(resultado));
             this.numeroConstruir="";
             this.mostrarOperacion=("");
             this.operadores=new ArrayList<>();
             this.numeros=new ArrayList<>();
+            this.ponerActividad(resultado);
             return;
         }
-        /**
+        /*
          * Se recorre la lista de los operadores y se accede al valor i e i+1 de la lista de los numeros
-         * */
+         */
         for (int i = 0; i < this.operadores.size(); i++) {
-            /**
+            /*
              * Se comprueba si hay raices para operarlas y meter el resultado en la posicion del numero
-             * */
+             */
             if(this.numeros.get(i).length()>1&&String.valueOf(this.numeros.get(i).charAt(0)).equals("√")){
                 try {
                     String numeroStringPrimero=this.numeros.get(i).substring(1);
@@ -244,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
                     String numeroStringPrimero=this.numeros.get(i+1).substring(2);
                     double numeroParseadoPrimero=Double.parseDouble(numeroStringPrimero);
                     numeroParseadoPrimero=Math.sqrt(numeroParseadoPrimero);
-                    System.out.println(signo+numeroParseadoPrimero);
                     this.numeros.set(i+1,signo+numeroParseadoPrimero);
                 }catch (Exception err){
                     this.eliminarTotal(view);
@@ -279,12 +268,11 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case "/" :
+                    resultado+=num1/num2;
                     if(num2==0){
-                        String texto="Error";
-                        viewOperacion.setText(texto);
+                        this.ponerActividad(resultado);
                         return;
                     }
-                    resultado+=num1/num2;
                     this.numeros.set(i + 1, String.valueOf(num1 / num2));
                     break;
                 case "^":
@@ -293,11 +281,20 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-            viewOperacion.setText(String.valueOf(resultado));
             this.numeroConstruir="";
             this.mostrarOperacion=("");
             this.operadores=new ArrayList<>();
             this.numeros=new ArrayList<>();
+            this.ponerActividad(resultado);
+        }
+        /**
+         * Método que se encarga de cambiar la actividad, envia el
+         * resultado para mostrarlo en la otra actividad.
+         * */
+        private void ponerActividad(double resultado){
+            Intent actividad2 = new Intent(this, ActivityResultado.class);
+            actividad2.putExtra("resultado", resultado);
+            startActivity(actividad2);
         }
 
 }
