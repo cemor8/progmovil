@@ -8,8 +8,8 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    String mostrarOperacion="";
-    String numeroConstruir="";
+    private String mostrarOperacion="";
+    private String numeroConstruir="";
     private ArrayList<String> operadores = new ArrayList<>();
     private ArrayList<String> numeros = new ArrayList<>();
     @Override
