@@ -1,0 +1,32 @@
+crear agenda telefonica
+
+	usuarios pueden hacer:
+
+	nuevo contacto
+	listar contactos (ordenada)
+	modificar contacto- volver a introducir todos sus datos, 
+	eliminar contacto
+	backup agenda
+
+		datos contacto:
+			nombre
+			apellidos
+			Direccion
+			email
+			teléfono
+
+
+
+previamente a esto:
+
+	login, nombre de usuario y clave
+
+administrador
+	alta usuarios
+	alta bbdd
+	baja usuarios
+	modificar usuarios
+	trabajar agenda - ¿con que agenda? - seleccionarla 
+	listar usuarios
+	borrar agendas
+	listar agendas

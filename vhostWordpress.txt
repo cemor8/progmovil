@@ -1,0 +1,17 @@
+virtual host para wordpress.
+
+juego- cartas dadas la vuelta, ir dando vueltas a cartas e ir encontrando las parejas,
+
+ventana principal
+	
+	Boton que permite jugar
+
+ventana juego
+	
+	el juego
+	
+	boton de reset
+	
+	boton de salir
+
+	sumando puntos- acaba cuando se acaban los turnos
