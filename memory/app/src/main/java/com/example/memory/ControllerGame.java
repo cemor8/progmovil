@@ -18,7 +18,7 @@ public class ControllerGame extends AppCompatActivity {
     private ArrayList<Carta> cartas = new ArrayList<>();
     private int cantidadCartasY=3;
     private int cantidadCartasX=4;
-    private int turnos = (cantidadCartasY + cantidadCartasX )/ 2;
+    private int turnos = cantidadCartasY * cantidadCartasX ;
     private int puntos = 0;
     private GridLayout gridLayout;
     @Override
@@ -45,11 +45,12 @@ public class ControllerGame extends AppCompatActivity {
         ArrayList<String> listaDeCartasNombre = new ArrayList<>(nombresCartas);
         this.gridLayout= findViewById(R.id.gridLayout);
         this.gridLayout.setColumnCount(4);
-
+        int contador = 0;
         for(int y = 0 ; y<this.cantidadCartasY ; y++){
             for (int x = 0 ; x<this.cantidadCartasX; x++){
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-
+                System.out.println(listaDeCartasNombre);
+                System.out.println(contador);
                 params.width = 200; // Ancho en píxeles
                 params.height = 200; // Alto en píxeles
 
@@ -62,7 +63,7 @@ public class ControllerGame extends AppCompatActivity {
                 imageView.setOnClickListener(this::darVuelta);
                 String nombreImagen=listaDeCartasNombre.remove(0);
                 cartas.add(new Carta(imageView, nombreImagen));
-
+                contador ++;
 
             }
         }
@@ -92,9 +93,19 @@ public class ControllerGame extends AppCompatActivity {
         }
         if(cartaAnterior!=null){
             imageViewCarta.setImageResource(getResources().getIdentifier(cartaActual.getImagenMostrar(), "drawable", getPackageName()));
+
             if(!cartaActual.getImagenMostrar().equalsIgnoreCase(cartaAnterior.getImagenMostrar())){
                this.restarTurno();
-               imageViewCarta.setImageResource(getResources().getIdentifier(this.cartaOculta, "drawable", getPackageName()));
+                imageViewCarta.postDelayed(() -> {
+                    imageViewCarta.setImageResource(getResources().getIdentifier(cartaOculta, "drawable", getPackageName()));
+                    imageViewCarta.setClickable(true);
+                    cartaAnterior.getUbicacionMostrarCarta().setImageResource(getResources().getIdentifier(cartaOculta, "drawable", getPackageName()));
+                    cartaAnterior.getUbicacionMostrarCarta().setClickable(true);
+                    this.cartaAnterior=null;
+
+                }, 1000);
+
+               return;
             }
             sumarPunto();
             imageViewCarta.setClickable(false);
@@ -111,7 +122,7 @@ public class ControllerGame extends AppCompatActivity {
     public void reset(View view){
         this.cartaAnterior=null;
         gridLayout.removeAllViews();
-        this.turnos=(cantidadCartasY + cantidadCartasX )/ 2;
+        this.turnos=cantidadCartasY * cantidadCartasX ;
         this.puntos=0;
         mostrarTurnos.setText("Turnos: "+this.turnos);
         this.cartas=new ArrayList<>();
