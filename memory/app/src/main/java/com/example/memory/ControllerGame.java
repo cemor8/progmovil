@@ -16,8 +16,8 @@ public class ControllerGame extends AppCompatActivity {
     private String cartaOculta="cartabackwards";
     private TextView mostrarTurnos;
     private ArrayList<Carta> cartas = new ArrayList<>();
-    private int cantidadCartasY=3;
-    private int cantidadCartasX=4;
+    private int cantidadCartasY=4;
+    private int cantidadCartasX=3;
     private int turnos = cantidadCartasY * cantidadCartasX ;
     private int puntos = 0;
     private GridLayout gridLayout;
@@ -51,8 +51,8 @@ public class ControllerGame extends AppCompatActivity {
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 System.out.println(listaDeCartasNombre);
                 System.out.println(contador);
-                params.width = 200; // Ancho en píxeles
-                params.height = 200; // Alto en píxeles
+                params.width = 300; // Ancho en píxeles
+                params.height = 300; // Alto en píxeles
 
                 params.rowSpec = GridLayout.spec(y);
                 params.columnSpec = GridLayout.spec(x);
@@ -91,24 +91,28 @@ public class ControllerGame extends AppCompatActivity {
         if(cartaActualOptional.isPresent()){
             cartaActual=cartaActualOptional.get();
         }
+        if (cartaActual == cartaAnterior){
+            return;
+        }
         if(cartaAnterior!=null){
+            this.restarTurno();
             imageViewCarta.setImageResource(getResources().getIdentifier(cartaActual.getImagenMostrar(), "drawable", getPackageName()));
-
-            if(!cartaActual.getImagenMostrar().equalsIgnoreCase(cartaAnterior.getImagenMostrar())){
-               this.restarTurno();
+            this.modificarclick(false);
+            if(!cartaActual.getImagenMostrar().equalsIgnoreCase(cartaAnterior.getImagenMostrar()) && cartaActual!=cartaAnterior){
                 imageViewCarta.postDelayed(() -> {
                     imageViewCarta.setImageResource(getResources().getIdentifier(cartaOculta, "drawable", getPackageName()));
-                    imageViewCarta.setClickable(true);
                     cartaAnterior.getUbicacionMostrarCarta().setImageResource(getResources().getIdentifier(cartaOculta, "drawable", getPackageName()));
-                    cartaAnterior.getUbicacionMostrarCarta().setClickable(true);
+                    this.modificarclick(true);
                     this.cartaAnterior=null;
 
-                }, 1000);
+                }, 500);
 
                return;
             }
             sumarPunto();
-            imageViewCarta.setClickable(false);
+            this.cartas.remove(cartaActual);
+            this.cartas.remove(cartaAnterior);
+            this.modificarclick(true);
             this.cartaAnterior = null;
             if(this.comprobarFin()){
                 this.desactivar();
@@ -116,6 +120,11 @@ public class ControllerGame extends AppCompatActivity {
         }else {
             this.cartaAnterior = cartaActual;
             imageViewCarta.setImageResource(getResources().getIdentifier(cartaActual.getImagenMostrar(), "drawable", getPackageName()));
+        }
+    }
+    public void modificarclick(boolean estado){
+        for(Carta carta : this.cartas){
+            carta.getUbicacionMostrarCarta().setClickable(estado);
         }
     }
 
