@@ -75,7 +75,11 @@ public class ControllerGame extends AppCompatActivity {
     }
     public void restarTurno(){
         this.turnos--;
-        this.mostrarTurnos.setText("Turnos: "+this.turnos);
+        if(this.puntos>0){
+            this.mostrarTurnos.setText("Turnos: "+this.turnos+"\n"+"Puntos: "+this.puntos);
+        }else{
+            this.mostrarTurnos.setText("Turnos: "+this.turnos);
+        }
     }
     public void sumarPunto(){
         this.puntos++;
@@ -114,12 +118,13 @@ public class ControllerGame extends AppCompatActivity {
             this.cartas.remove(cartaAnterior);
             this.modificarclick(true);
             this.cartaAnterior = null;
-            if(this.comprobarFin()){
-                this.desactivar();
-            }
+
         }else {
             this.cartaAnterior = cartaActual;
             imageViewCarta.setImageResource(getResources().getIdentifier(cartaActual.getImagenMostrar(), "drawable", getPackageName()));
+        }
+        if(this.comprobarFin()){
+            this.desactivar();
         }
     }
     public void modificarclick(boolean estado){
