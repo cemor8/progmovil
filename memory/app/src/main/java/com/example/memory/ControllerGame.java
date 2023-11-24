@@ -1,5 +1,6 @@
 package com.example.memory;
 
+import android.content.Intent;
 import androidx.gridlayout.widget.GridLayout;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,6 @@ public class ControllerGame extends AppCompatActivity {
     private int cantidadCartasX = 3;
     private int turnos = cantidadCartasY * cantidadCartasX ;
     private int puntos = 0;
-    private boolean ganador = false;
     private GridLayout gridLayout;
 
     @Override
@@ -40,7 +40,6 @@ public class ControllerGame extends AppCompatActivity {
      * para sumar puntos. Este metodo tambien se usa para volver a empezar una partida.
      * **/
     public void inicializarCartas() {
-        this.ganador = false;
         String[] nombresCartasArray = {
                 "j_corazones", "j_corazones",
                 "j_picas", "j_picas",
@@ -123,6 +122,7 @@ public class ControllerGame extends AppCompatActivity {
             this.modificarclick(false);
             if (!cartaActual.getImagenMostrar().equalsIgnoreCase(cartaAnterior.getImagenMostrar()) && cartaActual != cartaAnterior) {
                 imageViewCarta.postDelayed(() -> {
+                    //comprobar si ya se acabo para no dar la vuelta a las cartas ya que luego se muestran todas
                     if(this.turnos == 0){
                         return;
                     }
@@ -156,7 +156,6 @@ public class ControllerGame extends AppCompatActivity {
      * se muestran todas las cartas.
      * */
     public void comprobar() {
-        System.out.println(this.puntos);
         if (this.puntos == cantidadCartasY * cantidadCartasX / 2) {
             this.mostrarTurnos.setText("Ganador!!!");
             this.desactivar();
@@ -189,6 +188,15 @@ public class ControllerGame extends AppCompatActivity {
         this.cartas = new ArrayList<>();
         this.inicializarCartas();
     }
+    /**
+     * Método que se encarga de reiniciar la partida.
+     * */
+    public void salir(View view) {
+        Intent actividad1 = new Intent(this, MainActivity.class);
+        startActivity(actividad1);
+    }
+
+
     /**
      * Método que se encarga de comprobar si se ha acabado la partida o no
      * */
