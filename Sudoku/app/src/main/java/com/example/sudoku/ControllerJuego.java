@@ -1,6 +1,9 @@
 package com.example.sudoku;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -9,19 +12,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class ControllerJuego extends AppCompatActivity {
     private int[][] tablero;
     private int[][] tableroMostrar;
     private EditText currentEditText = null;
+    private GridLayout gridLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablero);
+
+        Intent intent = getIntent();
+        int valorRecibido = 40;
+        if (intent != null && intent.hasExtra("casillas")) {
+            valorRecibido = intent.getIntExtra("casillas", 40);
+
+        }
+        this.gridLayout =findViewById(R.id.tablero);
         this.crearTableroIntefaz();
 
         ControllerSudoku controllerSudoku = new ControllerSudoku();
@@ -33,7 +48,7 @@ public class ControllerJuego extends AppCompatActivity {
             System.arraycopy(this.tablero[i], 0, this.tableroMostrar[i], 0, 9);
         }
 
-        this.ocultarNumeros(40);
+        this.ocultarNumeros(valorRecibido);
         this.mostrarNumerosTablero();
 
     }
@@ -59,12 +74,18 @@ public class ControllerJuego extends AppCompatActivity {
                 GridLayout.Spec columnSpec = GridLayout.spec(j, 1f);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
-                layoutParams.setMargins(10, 0, 10, 10);
+
 
                 editText.setTextSize(18);
                 editText.setGravity(Gravity.CENTER);
                 editText.setInputType(InputType.TYPE_NULL);
-                editText.setBackgroundColor(Color.BLACK);
+                int colorFondo;
+                if ((i / 3 + j / 3) % 2 == 0) {
+                    colorFondo = ContextCompat.getColor(this, R.color.azulClaro);;
+                } else {
+                    colorFondo = ContextCompat.getColor(this, R.color.azulOscuro);
+                }
+                editText.setBackgroundColor(colorFondo);
                 editText.setTextColor(Color.WHITE);
                 editText.setLayoutParams(layoutParams);
                 gridLayout.addView(editText);
@@ -90,13 +111,79 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
-    public void seleccionarEditText(View view){
-        if(this.currentEditText != null){
-            this.currentEditText.setBackgroundColor(Color.BLACK);
+    public void color(){
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            View view = gridLayout.getChildAt(i);
+            if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                int fila = i / 9;
+                int columna = i % 9;
+
+                int colorFondo;
+
+                if ((fila / 3 + columna / 3) % 2 == 0) {
+                    colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
+                } else {
+                    colorFondo = ContextCompat.getColor(this, R.color.azulOscuro);
+                }
+
+                editText.setBackgroundColor(colorFondo);
+            }
         }
-        this.currentEditText = (EditText) view;
-        this.currentEditText.setBackgroundColor(Color.BLUE);
     }
+
+    public void seleccionarEditText(View view) {
+        this.color();
+        this.currentEditText = (EditText) view;
+
+        this.currentEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
+
+        int filaSeleccionada = obtenerFila(this.currentEditText);
+        int columnaSeleccionada = obtenerColumna(this.currentEditText);
+        colorearFila(filaSeleccionada);
+        colorearColumna(columnaSeleccionada);
+        int bloqueFila = filaSeleccionada / 3 * 3;
+        int bloqueColumna = columnaSeleccionada / 3 * 3;
+        colorearBloque(bloqueFila, bloqueColumna);
+    }
+
+    private int obtenerFila(EditText editText) {
+        int index = gridLayout.indexOfChild(editText);
+        int fila = index / 9;
+        return fila;
+    }
+
+    private int obtenerColumna(EditText editText) {
+        int index = gridLayout.indexOfChild(editText);
+        int columna = index % 9;
+        return columna;
+    }
+
+
+    private void colorearFila(int fila) {
+        for (int j = 0; j < 9; j++) {
+            EditText editText = (EditText) gridLayout.getChildAt(fila * 9 + j);
+            editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
+        }
+    }
+
+    private void colorearColumna(int columna) {
+        for (int i = 0; i < 9; i++) {
+            EditText editText = (EditText) gridLayout.getChildAt(i * 9 + columna);
+            editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
+        }
+    }
+
+    private void colorearBloque(int filaInicio, int columnaInicio) {
+        for (int i = filaInicio; i < filaInicio + 3; i++) {
+            for (int j = columnaInicio; j < columnaInicio + 3; j++) {
+                EditText editText = (EditText) gridLayout.getChildAt(i * 9 + j);
+                editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
+            }
+        }
+    }
+
+
     public void meternumero(View view){
         if(this.currentEditText == null){
             return;
@@ -124,5 +211,9 @@ public class ControllerJuego extends AppCompatActivity {
         System.out.println(Arrays.deepToString(this.tablero));
 
 
+    }
+    public void volver(View view){
+        Intent intent = new Intent(this,ControllerDificultad.class);
+        startActivity(intent);
     }
 }

@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
     public void cambiar(View view){
-        Intent intent = new Intent(this,ControllerJuego.class);
+        Intent intent = new Intent(this,ControllerDificultad.class);
         startActivity(intent);
     }
 }
