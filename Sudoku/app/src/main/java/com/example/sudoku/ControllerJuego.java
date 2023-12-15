@@ -15,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.gridlayout.widget.GridLayout;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class ControllerJuego extends AppCompatActivity {
     private int[][] tablero;
@@ -81,7 +78,7 @@ public class ControllerJuego extends AppCompatActivity {
                 editText.setInputType(InputType.TYPE_NULL);
                 int colorFondo;
                 if ((i / 3 + j / 3) % 2 == 0) {
-                    colorFondo = ContextCompat.getColor(this, R.color.azulClaro);;
+                    colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
                 } else {
                     colorFondo = ContextCompat.getColor(this, R.color.azulOscuro);
                 }
@@ -132,12 +129,24 @@ public class ControllerJuego extends AppCompatActivity {
         }
     }
 
+    public void colorearMismosNumeros(String numero){
+        if(Objects.equals(numero, "")){
+            return;
+        }
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            View view = gridLayout.getChildAt(i);
+            if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                if(String.valueOf(editText.getText()).equalsIgnoreCase(numero)){
+                    editText.setBackgroundColor(ContextCompat.getColor(this,R.color.marcarEditText));
+                }
+            }
+        }
+    }
+
     public void seleccionarEditText(View view) {
         this.color();
         this.currentEditText = (EditText) view;
-
-        this.currentEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
-
         int filaSeleccionada = obtenerFila(this.currentEditText);
         int columnaSeleccionada = obtenerColumna(this.currentEditText);
         colorearFila(filaSeleccionada);
@@ -145,6 +154,9 @@ public class ControllerJuego extends AppCompatActivity {
         int bloqueFila = filaSeleccionada / 3 * 3;
         int bloqueColumna = columnaSeleccionada / 3 * 3;
         colorearBloque(bloqueFila, bloqueColumna);
+        this.colorearMismosNumeros(String.valueOf(this.currentEditText.getText()));
+        System.out.println(String.valueOf(currentEditText.getText()));
+        this.currentEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.marcarEditText));
     }
 
     private int obtenerFila(EditText editText) {
@@ -202,8 +214,10 @@ public class ControllerJuego extends AppCompatActivity {
         Log.d("Posicion", "Fila: " + rowIndex + ", Columna: " + columnIndex);
         if(String.valueOf(this.tablero[rowIndex][columnIndex]).equalsIgnoreCase(String.valueOf(this.currentEditText.getText()))){
             System.out.println("bien");
+            this.currentEditText.setEnabled(false);
+            this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
         }else {
-
+            this.currentEditText.setTextColor(Color.parseColor("#ff0000"));
         }
         System.out.println(rowIndex);
         System.out.println(columnIndex);

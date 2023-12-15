@@ -5,5 +5,7 @@
     <color name="azulOscuro">#0f1e32 </color>
     <color name="azulClaro">#5886af </color>
     <color name="grisAzulado">#8990a2 </color>
+    <color name="marcarEditText">#4f5984 </color>
+    <color name="marcarIguales">#72a5d3 </color>
 
 </resources>
