@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:layout_editor_absoluteY="-75dp"
+                                                   tools:layout_editor_absoluteX="0dp">
 
     <androidx.gridlayout.widget.GridLayout
             android:layout_width="378dp"
@@ -9,115 +13,146 @@
             android:id="@+id/tablero"
             app:layout_constraintStart_toStartOf="parent"
             android:padding="5dp"
-            android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
+            android:layout_marginStart="10dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="5dp"
             app:columnCount="9" app:rowCount="9">
     </androidx.gridlayout.widget.GridLayout>
     <Button
-            android:text="1"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button2"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="252dp"/>
-    <Button
-            android:text="5"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button17"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="150dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="186dp"/>
-    <Button
-            android:text="4"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button18"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="186dp"/>
-    <Button
-            android:text="6"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button14"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="281dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="186dp"/>
-    <Button
-            android:text="7"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button19"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="120dp"/>
-    <Button
-            android:text="Borrar"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="118dp"
-            android:layout_height="62dp" android:id="@+id/button22"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="15dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="40dp"/>
-    <Button
-            android:text="Volver"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="118dp"
-            android:layout_height="62dp" android:id="@+id/button23"
-            android:onClick="volver"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="145dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="40dp"/>
-    <Button
-            android:text="Nueva partida"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="118dp"
-            android:layout_height="62dp" android:id="@+id/button24"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="271dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="40dp"/>
-    <Button
-            android:text="8"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button20"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="150dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="120dp"/>
-    <Button
-            android:text="9"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button21"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="281dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="120dp"/>
-    <Button
-            android:text="3"
-            android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
-            android:layout_height="58dp" android:id="@+id/button15"
-            android:onClick="meternumero"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="281dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="252dp"/>
-    <Button
             android:text="2"
             android:backgroundTint="@color/azulOscuro"
-            android:layout_width="99dp"
+            android:layout_width="79dp"
             android:layout_height="58dp" android:id="@+id/button16"
             android:onClick="meternumero"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="150dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="252dp"/>
+            android:layout_marginStart="156dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="276dp"
+    />
+    <Button
+            android:text="8"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button20"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="156dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="156dp"
+    />
+    <Button
+            android:text="9"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button21"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="236dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="156dp"
+    />
+    <Button
+            android:text="6"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button14"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="236dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="216dp"
+    />
+    <Button
+            android:text="5"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button17"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="156dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="216dp"/>
+    <Button
+            android:text="4"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button18"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="76dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="216dp"
+    />
+    <Button
+            android:text="1"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button2"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="76dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="276dp"
+    />
+    <Button
+            android:text="3"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button15"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="236dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="276dp"
+    />
+    <Button
+            android:text="7"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="79dp"
+            android:layout_height="58dp" android:id="@+id/button19"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="76dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="156dp"
+    />
+    <Button
+            android:text="Borrar Todo"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="157dp"
+            android:layout_height="60dp" android:id="@+id/button22"
+            android:onClick="borrarTodo"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="24dp"
+    />
+    <Button
+            android:text="Resolver"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="157dp"
+            android:layout_height="60dp" android:id="@+id/button4"
+            android:onClick="meternumero"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="228dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="24dp"
+    />
+    <Button
+            android:text="Volver"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="100dp"
+            android:layout_height="62dp" android:id="@+id/button23"
+            android:onClick="volver"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="148dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="84dp"
+    />
+    <Button
+            android:text="Borrar"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="100dp"
+            android:layout_height="62dp" android:id="@+id/button3"
+            android:onClick="borrar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="84dp"
+    />
+    <Button
+            android:text="Nueva partida"
+            android:backgroundTint="@color/azulOscuro"
+            android:layout_width="100dp"
+            android:layout_height="62dp" android:id="@+id/button24"
+            android:onClick="nuevaPartida"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="276dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="84dp"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,19 +22,26 @@ public class ControllerJuego extends AppCompatActivity {
     private int[][] tableroMostrar;
     private EditText currentEditText = null;
     private GridLayout gridLayout;
+    private int valorRecibido = 0;
+    private boolean terminado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tablero);
 
         Intent intent = getIntent();
-        int valorRecibido = 40;
         if (intent != null && intent.hasExtra("casillas")) {
-            valorRecibido = intent.getIntExtra("casillas", 40);
+            this.valorRecibido = intent.getIntExtra("casillas", 40);
 
         }
         this.gridLayout =findViewById(R.id.tablero);
         this.crearTableroIntefaz();
+        this.crearPartida();
+
+
+    }
+    public void crearPartida(){
+
 
         ControllerSudoku controllerSudoku = new ControllerSudoku();
         this.tablero = controllerSudoku.devolverSudokuAleatorio();
@@ -44,11 +51,12 @@ public class ControllerJuego extends AppCompatActivity {
         for (int i = 0; i < 9; i++) {
             System.arraycopy(this.tablero[i], 0, this.tableroMostrar[i], 0, 9);
         }
-
-        this.ocultarNumeros(valorRecibido);
+        this.ocultarNumeros(this.valorRecibido);
         this.mostrarNumerosTablero();
 
     }
+
+
     private void ocultarNumeros(int cantidadOcultar) {
         Random random = new Random();
         while (cantidadOcultar > 0) {
@@ -70,7 +78,6 @@ public class ControllerJuego extends AppCompatActivity {
                 GridLayout.Spec rowSpec = GridLayout.spec(i, 1f);
                 GridLayout.Spec columnSpec = GridLayout.spec(j, 1f);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-
 
 
                 editText.setTextSize(18);
@@ -204,30 +211,83 @@ public class ControllerJuego extends AppCompatActivity {
         this.currentEditText.setText(btn.getText());
         GridLayout gridLayout = findViewById(R.id.tablero);
 
-        int indexOfEditText = gridLayout.indexOfChild(this.currentEditText);
+        int ubicacionEditText = gridLayout.indexOfChild(this.currentEditText);
 
-        int columnCount = gridLayout.getColumnCount();
+        int numeroColumnas = gridLayout.getColumnCount();
 
-        int rowIndex = indexOfEditText / columnCount;
-        int columnIndex = indexOfEditText % columnCount;
+        int fila = ubicacionEditText / numeroColumnas;
+        int columna = ubicacionEditText % numeroColumnas;
 
-        Log.d("Posicion", "Fila: " + rowIndex + ", Columna: " + columnIndex);
-        if(String.valueOf(this.tablero[rowIndex][columnIndex]).equalsIgnoreCase(String.valueOf(this.currentEditText.getText()))){
-            System.out.println("bien");
+        //Log.d("Posicion", "Fila: " + rowIndex + ", Columna: " + columnIndex);
+        if(String.valueOf(this.tablero[fila][columna]).equalsIgnoreCase(String.valueOf(this.currentEditText.getText()))){
             this.currentEditText.setEnabled(false);
             this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
         }else {
             this.currentEditText.setTextColor(Color.parseColor("#ff0000"));
         }
-        System.out.println(rowIndex);
-        System.out.println(columnIndex);
-        System.out.println(this.tablero[rowIndex][columnIndex]);
-        System.out.println(Arrays.deepToString(this.tablero));
+        this.seleccionarEditText(this.currentEditText);
 
 
     }
     public void volver(View view){
         Intent intent = new Intent(this,ControllerDificultad.class);
         startActivity(intent);
+    }
+    public void borrar(View view){
+        this.currentEditText.setText("");
+        this.currentEditText.setTextColor(Color.WHITE);
+        this.seleccionarEditText(this.currentEditText);
+    }
+    public void borrarTodo(View view){
+        this.currentEditText = null;
+        this.vaciarNumeros();
+        this.mostrarNumerosTablero();
+    }
+
+    public void nuevaPartida(View view){
+        this.terminado = false;
+        this.vaciarNumeros();
+        this.crearPartida();
+    }
+    public void vaciarNumeros(){
+        GridLayout gridLayout = findViewById(R.id.tablero);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                View view = gridLayout.getChildAt(i * 9 + j);
+                if (view instanceof EditText) {
+                    EditText editText = (EditText) view;
+                    editText.setText("");
+                }
+            }
+        }
+    }
+    public void resolver(View view){
+        if(this.terminado){
+            return;
+        }
+        this.terminado=true;
+        this.comprobar();
+
+    }
+    public void comprobar(){
+        boolean error = false;
+        for (int y = 0 ; y<9 ; y++){
+            for (int x = 0; x<9; x++){
+                View view = gridLayout.getChildAt(y * 9 + x);
+                if (view instanceof EditText) {
+                    EditText editText = (EditText)view;
+
+                    if(!String.valueOf(editText.getText()).equalsIgnoreCase(String.valueOf(this.tablero[y][x]))){
+                        error = true;
+                    }
+                    this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
+                    editText.setText(this.tablero[y][x]);
+                }
+
+            }
+        }
+        if(!error){
+            // poner nueva activity
+        }
     }
 }
