@@ -11,15 +11,9 @@ public class ControllerSudoku {
     public boolean rellenar(int y, int x){
         if (y == dimension - 1 && x == dimension) {
             return true;
-        }
-
-        if (x == dimension) {
+        }else if (x == dimension) {
             y++;
             x = 0;
-        }
-
-        if (tablero[y][x] != 0) {
-            return rellenar(y, x + 1);
         }
         ArrayList<Integer> numerosAleatorios = obtenerNumerosAleatorios();
         for (int numero : numerosAleatorios) {
