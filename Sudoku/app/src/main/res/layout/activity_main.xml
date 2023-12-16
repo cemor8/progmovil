@@ -7,19 +7,21 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:layout_width="367dp"
+            android:layout_height="151dp"
+            android:text="Sudoku"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.162" android:fontFamily="cursive" android:textSize="120sp"
+            android:gravity="center" android:textColor="@color/azulOscuro"/>
     <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button"
-            android:layout_marginEnd="168dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="203dp"
-            android:onClick="cambiar"/>
+            android:text="Iniciar"
+            android:layout_width="270dp"
+            android:layout_height="111dp" android:id="@+id/button"
+            android:layout_marginEnd="68dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="220dp"
+            android:onClick="cambiar" android:backgroundTint="@color/azulOscuro" android:textSize="60sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
