@@ -27,6 +27,9 @@
         <activity
                 android:name=".ControllerDificultad">
         </activity>
+        <activity
+                android:name=".ControllerGanar">
+        </activity>
     </application>
 
 </manifest>

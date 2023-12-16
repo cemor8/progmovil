@@ -104,6 +104,7 @@ public class ControllerJuego extends AppCompatActivity {
                 if (view instanceof EditText) {
                     EditText editText = (EditText) view;
                     int value = this.tableroMostrar[i][j];
+                    editText.setTextColor(Color.WHITE);
                     if (value != 0) {
                         editText.setText(String.valueOf(value));
                         editText.setEnabled(false);
@@ -224,6 +225,7 @@ public class ControllerJuego extends AppCompatActivity {
             this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
         }else {
             this.currentEditText.setTextColor(Color.parseColor("#ff0000"));
+            this.currentEditText.setEnabled(true);
         }
         this.seleccionarEditText(this.currentEditText);
 
@@ -276,18 +278,25 @@ public class ControllerJuego extends AppCompatActivity {
                 View view = gridLayout.getChildAt(y * 9 + x);
                 if (view instanceof EditText) {
                     EditText editText = (EditText)view;
-
                     if(!String.valueOf(editText.getText()).equalsIgnoreCase(String.valueOf(this.tablero[y][x]))){
                         error = true;
+                        editText.setTextColor(Color.parseColor("#77dd77"));
+                        editText.setText(String.valueOf(this.tablero[y][x]));
                     }
-                    this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
-                    editText.setText(this.tablero[y][x]);
+                    if(this.currentEditText!=null){
+                        this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
+                    }
+
+
+
                 }
 
             }
         }
         if(!error){
-            // poner nueva activity
+            Intent intent = new Intent(this, ControllerGanar.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 }

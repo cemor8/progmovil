@@ -19,7 +19,7 @@ public class ControllerDificultad extends AppCompatActivity {
         int id = btn.getId();
         int casillas = 0;
         if(id == R.id.btnfa){
-        casillas = 40;
+        casillas = 10;
         }else if(id == R.id.btnme){
         casillas = 50;
         }else if(id == R.id.btndi){
