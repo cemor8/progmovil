@@ -13,7 +13,10 @@ public class ControllerDificultad extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dificultad);
     }
-
+    /**
+     * Método que dependiendo del boton que se invoque, crea
+     * un sudoku de una dificultad u otra
+     * */
     public void jugar(View view){
         Button btn = (Button) view;
         int id = btn.getId();
@@ -21,9 +24,9 @@ public class ControllerDificultad extends AppCompatActivity {
         if(id == R.id.btnfa){
         casillas = 10;
         }else if(id == R.id.btnme){
-        casillas = 50;
+        casillas = 35;
         }else if(id == R.id.btndi){
-        casillas = 60;
+        casillas = 50;
         }else if(id == R.id.btnexp){
         casillas = 65;
         }

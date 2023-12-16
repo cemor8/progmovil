@@ -40,6 +40,9 @@ public class ControllerJuego extends AppCompatActivity {
 
 
     }
+    /**
+     * Método que se encarga de crear el sudoku, ocultar unos numeros y mostrarlos por pantalla
+     * */
     public void crearPartida(){
 
 
@@ -56,7 +59,11 @@ public class ControllerJuego extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Método que se encarga de ocultar los numeros del sudoku,
+     * busca una posicion aleatoria en el sudoku y si no es 0 el valor,
+     * pasa a ser 0 para luego no mostrar esa posicion por pantalla
+     * */
     private void ocultarNumeros(int cantidadOcultar) {
         Random random = new Random();
         while (cantidadOcultar > 0) {
@@ -68,15 +75,19 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
+    /**
+     * Método que se encarga de crear la interfaz, crea los editText,
+     * los modifica y los añade al
+     * */
     public void crearTableroIntefaz(){
         GridLayout gridLayout = findViewById(R.id.tablero);
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
                 EditText editText = new EditText(this);
                 editText.setOnClickListener(this::seleccionarEditText);
-                GridLayout.Spec rowSpec = GridLayout.spec(i, 1f);
-                GridLayout.Spec columnSpec = GridLayout.spec(j, 1f);
+                GridLayout.Spec rowSpec = GridLayout.spec(y, 1f);
+                GridLayout.Spec columnSpec = GridLayout.spec(x, 1f);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
 
@@ -84,7 +95,8 @@ public class ControllerJuego extends AppCompatActivity {
                 editText.setGravity(Gravity.CENTER);
                 editText.setInputType(InputType.TYPE_NULL);
                 int colorFondo;
-                if ((i / 3 + j / 3) % 2 == 0) {
+                // si el bloque es par se colorea de azul claro, si es impar se colorea de azul oscuro.
+                if ((y/ 3 + x / 3) % 2 == 0) {
                     colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
                 } else {
                     colorFondo = ContextCompat.getColor(this, R.color.azulOscuro);
@@ -96,14 +108,17 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
+    /**
+     * Método que muestra los numeros del tablero en los editText
+     * */
     public void mostrarNumerosTablero(){
         GridLayout gridLayout = findViewById(R.id.tablero);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                View view = gridLayout.getChildAt(i * 9 + j);
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                View view = gridLayout.getChildAt(y * 9 + x);
                 if (view instanceof EditText) {
                     EditText editText = (EditText) view;
-                    int value = this.tableroMostrar[i][j];
+                    int value = this.tableroMostrar[y][x];
                     editText.setTextColor(Color.WHITE);
                     if (value != 0) {
                         editText.setText(String.valueOf(value));
@@ -116,17 +131,20 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
+    /**
+     * Método que vuelve a colorear el fondo del tablero
+     * */
     public void color(){
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
             View view = gridLayout.getChildAt(i);
             if (view instanceof EditText) {
                 EditText editText = (EditText) view;
-                int fila = i / 9;
-                int columna = i % 9;
+                int y = i / 9;
+                int x = i % 9;
 
                 int colorFondo;
 
-                if ((fila / 3 + columna / 3) % 2 == 0) {
+                if ((y / 3 + x / 3) % 2 == 0) {
                     colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
                 } else {
                     colorFondo = ContextCompat.getColor(this, R.color.azulOscuro);
@@ -136,7 +154,10 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
-
+    /**
+     * Método que colorea los editText que tengan el mismo valor que la string recibida
+     * @param numero numero en formato string
+     * */
     public void colorearMismosNumeros(String numero){
         if(Objects.equals(numero, "")){
             return;
@@ -151,59 +172,79 @@ public class ControllerJuego extends AppCompatActivity {
             }
         }
     }
-
+    /**
+     * Método que se encarga de seleccionar un editText y colorear el bloque, fila , columna y editTexts que tengan relaccion con el seleccionado
+     * */
     public void seleccionarEditText(View view) {
         this.color();
         this.currentEditText = (EditText) view;
-        int filaSeleccionada = obtenerFila(this.currentEditText);
-        int columnaSeleccionada = obtenerColumna(this.currentEditText);
-        colorearFila(filaSeleccionada);
-        colorearColumna(columnaSeleccionada);
-        int bloqueFila = filaSeleccionada / 3 * 3;
-        int bloqueColumna = columnaSeleccionada / 3 * 3;
-        colorearBloque(bloqueFila, bloqueColumna);
+        int y = this.obtenerFila(this.currentEditText);
+        int x = this.obtenerColumna(this.currentEditText);
+        this.colorearFila(y);
+        this.colorearColumna(x);
+        int bloqueY = y / 3 * 3;
+        int bloqueX = x / 3 * 3;
+        this.colorearBloque(bloqueY, bloqueX);
         this.colorearMismosNumeros(String.valueOf(this.currentEditText.getText()));
-        System.out.println(String.valueOf(currentEditText.getText()));
         this.currentEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.marcarEditText));
     }
-
+    /**
+     * Método que devuelve la fila en la que esta el editText recibido
+     * @param editText editText
+     **/
     private int obtenerFila(EditText editText) {
-        int index = gridLayout.indexOfChild(editText);
-        int fila = index / 9;
-        return fila;
+        int posicion = gridLayout.indexOfChild(editText);
+        int y = posicion / 9;
+        return y;
     }
-
+    /**
+     * Método que devuelve la columna en la que esta el editText recibido
+     * @param editText editText
+     **/
     private int obtenerColumna(EditText editText) {
-        int index = gridLayout.indexOfChild(editText);
-        int columna = index % 9;
-        return columna;
+        int posicion = gridLayout.indexOfChild(editText);
+        int x = posicion % 9;
+        return x;
     }
 
-
-    private void colorearFila(int fila) {
-        for (int j = 0; j < 9; j++) {
-            EditText editText = (EditText) gridLayout.getChildAt(fila * 9 + j);
-            editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
-        }
-    }
-
-    private void colorearColumna(int columna) {
+    /**
+     * Método que colorea todos los editText de una fila
+     * @param y fila a pintar
+     * */
+    private void colorearFila(int y) {
         for (int i = 0; i < 9; i++) {
-            EditText editText = (EditText) gridLayout.getChildAt(i * 9 + columna);
+            EditText editText = (EditText) gridLayout.getChildAt(y * 9 + i);
             editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
         }
     }
-
+    /**
+     * Método que colorea todos los editText de una columna
+     * @param x columna a pintar
+     * */
+    private void colorearColumna(int x) {
+        for (int i = 0; i < 9; i++) {
+            EditText editText = (EditText) gridLayout.getChildAt(i * 9 + x);
+            editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
+        }
+    }
+    /**
+     * Método que colorea el bloque correspondiente
+     * @param columnaInicio columna de inicio del bloque
+     * @param filaInicio fila de inicio del bloque
+     * */
     private void colorearBloque(int filaInicio, int columnaInicio) {
-        for (int i = filaInicio; i < filaInicio + 3; i++) {
-            for (int j = columnaInicio; j < columnaInicio + 3; j++) {
-                EditText editText = (EditText) gridLayout.getChildAt(i * 9 + j);
+        for (int y = filaInicio; y < filaInicio + 3; y++) {
+            for (int x = columnaInicio; x < columnaInicio + 3; x++) {
+                EditText editText = (EditText) gridLayout.getChildAt(y * 9 + x);
                 editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
             }
         }
     }
 
-
+    /**
+     * Método que mete un valor en un editText, si el valor es correcto se colorea de verde y
+     * no se puede volver a seleccionar, si es incorrecto, se colorea de rojo
+     * */
     public void meternumero(View view){
         if(this.currentEditText == null){
             return;
@@ -213,14 +254,13 @@ public class ControllerJuego extends AppCompatActivity {
         GridLayout gridLayout = findViewById(R.id.tablero);
 
         int ubicacionEditText = gridLayout.indexOfChild(this.currentEditText);
+        // cantidad de columnas, daria 9
+        int cantidadColumnas = gridLayout.getColumnCount();
 
-        int numeroColumnas = gridLayout.getColumnCount();
-
-        int fila = ubicacionEditText / numeroColumnas;
-        int columna = ubicacionEditText % numeroColumnas;
-
-        //Log.d("Posicion", "Fila: " + rowIndex + ", Columna: " + columnIndex);
-        if(String.valueOf(this.tablero[fila][columna]).equalsIgnoreCase(String.valueOf(this.currentEditText.getText()))){
+        int y = ubicacionEditText / cantidadColumnas;
+        // se usa modulo para buscar columna ya que es el resultado de la division entre la cantidad de columnas
+        int x = ubicacionEditText % cantidadColumnas;
+        if(String.valueOf(this.tablero[y][x]).equalsIgnoreCase(String.valueOf(this.currentEditText.getText()))){
             this.currentEditText.setEnabled(false);
             this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
         }else {
@@ -231,31 +271,46 @@ public class ControllerJuego extends AppCompatActivity {
 
 
     }
+    /**
+     * Método que vuelve a la activity para seleccionar
+     * una dificultad
+     * */
     public void volver(View view){
         Intent intent = new Intent(this,ControllerDificultad.class);
         startActivity(intent);
     }
+    /**
+     * Método que borra el contenido de un editText
+     * */
     public void borrar(View view){
         this.currentEditText.setText("");
         this.currentEditText.setTextColor(Color.WHITE);
         this.seleccionarEditText(this.currentEditText);
     }
+    /**
+     * Método que resetea el tablero para volver a empezar
+     * */
     public void borrarTodo(View view){
         this.currentEditText = null;
         this.vaciarNumeros();
         this.mostrarNumerosTablero();
     }
-
+    /**
+     * Método que crea una nueva partida
+     * */
     public void nuevaPartida(View view){
         this.terminado = false;
         this.vaciarNumeros();
         this.crearPartida();
     }
+    /**
+     * Método que recorre los editText y los limpia
+     * */
     public void vaciarNumeros(){
         GridLayout gridLayout = findViewById(R.id.tablero);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                View view = gridLayout.getChildAt(i * 9 + j);
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                View view = gridLayout.getChildAt(y * 9 + x);
                 if (view instanceof EditText) {
                     EditText editText = (EditText) view;
                     editText.setText("");
