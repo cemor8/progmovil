@@ -50,7 +50,7 @@ public class ControllerJuego extends AppCompatActivity {
         this.tablero = controllerSudoku.devolverSudokuAleatorio();
 
         this.tableroMostrar = new int[9][9];
-
+        // copiar columnas
         for (int i = 0; i < 9; i++) {
             System.arraycopy(this.tablero[i], 0, this.tableroMostrar[i], 0, 9);
         }
@@ -96,6 +96,8 @@ public class ControllerJuego extends AppCompatActivity {
                 editText.setInputType(InputType.TYPE_NULL);
                 int colorFondo;
                 // si el bloque es par se colorea de azul claro, si es impar se colorea de azul oscuro.
+
+                //se dividen las coordenadas por 3 para agrupar en bloques de 3x3, luego se comprueba si el bloque es par o impar
                 if ((y/ 3 + x / 3) % 2 == 0) {
                     colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
                 } else {
@@ -115,6 +117,7 @@ public class ControllerJuego extends AppCompatActivity {
         GridLayout gridLayout = findViewById(R.id.tablero);
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
+                // se multiplica la fila actual por en numero de filas totales y se le suma x para ir a la columna
                 View view = gridLayout.getChildAt(y * 9 + x);
                 if (view instanceof EditText) {
                     EditText editText = (EditText) view;
@@ -139,6 +142,7 @@ public class ControllerJuego extends AppCompatActivity {
             View view = gridLayout.getChildAt(i);
             if (view instanceof EditText) {
                 EditText editText = (EditText) view;
+                // se divide entre cantidad de filas y el modulo para saber en la columna que se esta
                 int y = i / 9;
                 int x = i % 9;
 
@@ -182,8 +186,8 @@ public class ControllerJuego extends AppCompatActivity {
         int x = this.obtenerColumna(this.currentEditText);
         this.colorearFila(y);
         this.colorearColumna(x);
-        int bloqueY = y / 3 * 3;
-        int bloqueX = x / 3 * 3;
+        int bloqueY = y - y % 3;
+        int bloqueX = x - x % 3;
         this.colorearBloque(bloqueY, bloqueX);
         this.colorearMismosNumeros(String.valueOf(this.currentEditText.getText()));
         this.currentEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.marcarEditText));
@@ -233,9 +237,10 @@ public class ControllerJuego extends AppCompatActivity {
      * @param filaInicio fila de inicio del bloque
      * */
     private void colorearBloque(int filaInicio, int columnaInicio) {
-        for (int y = filaInicio; y < filaInicio + 3; y++) {
-            for (int x = columnaInicio; x < columnaInicio + 3; x++) {
-                EditText editText = (EditText) gridLayout.getChildAt(y * 9 + x);
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x <  3; x++) {
+
+                EditText editText = (EditText) gridLayout.getChildAt((y + filaInicio) * 9 + (x + columnaInicio));
                 editText.setBackgroundColor(ContextCompat.getColor(this, R.color.grisAzulado));
             }
         }
@@ -256,7 +261,7 @@ public class ControllerJuego extends AppCompatActivity {
         int ubicacionEditText = gridLayout.indexOfChild(this.currentEditText);
         // cantidad de columnas, daria 9
         int cantidadColumnas = gridLayout.getColumnCount();
-
+        // el numero de filas y columnas es el mismo asi que se pueden usar las columnas para calcular la fila
         int y = ubicacionEditText / cantidadColumnas;
         // se usa modulo para buscar columna ya que es el resultado de la division entre la cantidad de columnas
         int x = ubicacionEditText % cantidadColumnas;
@@ -317,10 +322,15 @@ public class ControllerJuego extends AppCompatActivity {
                 if (view instanceof EditText) {
                     EditText editText = (EditText) view;
                     editText.setText("");
+                    editText.setEnabled(true);
                 }
             }
         }
     }
+    /**
+     * Método que invoca un boton para resolver el tablero, si en la partida,
+     * ya se ha invocado, no hace nada.
+     * */
     public void resolver(View view){
         if(this.terminado){
             return;
@@ -329,6 +339,10 @@ public class ControllerJuego extends AppCompatActivity {
         this.comprobar();
 
     }
+    /**
+     * Método que se encarga de resolver el sudoku, si hay un error lo resuelve, si
+     * no hay ningun error, lleva a una nueva activity.
+     * */
     public void comprobar(){
         boolean error = false;
         for (int y = 0 ; y<9 ; y++){
@@ -340,9 +354,11 @@ public class ControllerJuego extends AppCompatActivity {
                         error = true;
                         editText.setTextColor(Color.parseColor("#77dd77"));
                         editText.setText(String.valueOf(this.tablero[y][x]));
+                        editText.setEnabled(false);
                     }
                     if(this.currentEditText!=null){
                         this.currentEditText.setTextColor(Color.parseColor("#77dd77"));
+                        this.currentEditText.setEnabled(false);
                     }
 
 
