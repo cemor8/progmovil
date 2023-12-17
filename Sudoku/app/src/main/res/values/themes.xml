@@ -3,11 +3,8 @@
     <style name="Base.Theme.Sudoku" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:buttonStyle">@style/BotonCuadrado</item>
     </style>
 
     <style name="Theme.Sudoku" parent="Base.Theme.Sudoku"/>
-    <style name="BotonCuadrado" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/custom_button</item>
-    </style>
+
 </resources>

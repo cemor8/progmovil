@@ -283,6 +283,9 @@ public class ControllerJuego extends AppCompatActivity {
      * Método que borra el contenido de un editText
      * */
     public void borrar(View view){
+        if(this.currentEditText==null){
+            return;
+        }
         this.currentEditText.setText("");
         this.currentEditText.setTextColor(Color.WHITE);
         this.seleccionarEditText(this.currentEditText);
