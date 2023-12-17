@@ -67,10 +67,10 @@ public class ControllerJuego extends AppCompatActivity {
     private void ocultarNumeros(int cantidadOcultar) {
         Random random = new Random();
         while (cantidadOcultar > 0) {
-            int row = random.nextInt(9);
-            int col = random.nextInt(9);
-            if (this.tableroMostrar[row][col] != 0) {
-                this.tableroMostrar[row][col] = 0;
+            int y = random.nextInt(9);
+            int x = random.nextInt(9);
+            if (this.tableroMostrar[y][x] != 0) {
+                this.tableroMostrar[y][x] = 0;
                 cantidadOcultar--;
             }
         }
@@ -294,7 +294,6 @@ public class ControllerJuego extends AppCompatActivity {
         this.currentEditText.setText("");
         this.currentEditText.setTextColor(Color.WHITE);
         this.seleccionarEditText(this.currentEditText);
-        this.color();
     }
     /**
      * Método que resetea el tablero para volver a empezar
@@ -310,8 +309,10 @@ public class ControllerJuego extends AppCompatActivity {
      * */
     public void nuevaPartida(View view){
         this.terminado = false;
+        this.currentEditText = null;
         this.vaciarNumeros();
         this.crearPartida();
+        this.color();
     }
     /**
      * Método que recorre los editText y los limpia
