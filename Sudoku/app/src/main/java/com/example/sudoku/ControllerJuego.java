@@ -89,7 +89,7 @@ public class ControllerJuego extends AppCompatActivity {
                 GridLayout.Spec rowSpec = GridLayout.spec(y, 1f);
                 GridLayout.Spec columnSpec = GridLayout.spec(x, 1f);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-
+                layoutParams.setMargins(1,0,1,1);
 
                 editText.setTextSize(18);
                 editText.setGravity(Gravity.CENTER);
@@ -97,7 +97,7 @@ public class ControllerJuego extends AppCompatActivity {
                 int colorFondo;
                 // si el bloque es par se colorea de azul claro, si es impar se colorea de azul oscuro.
 
-                //se dividen las coordenadas por 3 para agrupar en bloques de 3x3, luego se comprueba si el bloque es par o impar
+                //se dividen las coordenadas por 3 para agrupar en bloques de 3 colmnas y 3 filas, luego se comprueba si el bloque es par o impar
                 if ((y/ 3 + x / 3) % 2 == 0) {
                     colorFondo = ContextCompat.getColor(this, R.color.azulClaro);
                 } else {
@@ -288,12 +288,13 @@ public class ControllerJuego extends AppCompatActivity {
      * Método que borra el contenido de un editText
      * */
     public void borrar(View view){
-        if(this.currentEditText==null){
+        if(this.currentEditText==null ||String.valueOf(this.currentEditText.getText()).equalsIgnoreCase("")){
             return;
         }
         this.currentEditText.setText("");
         this.currentEditText.setTextColor(Color.WHITE);
         this.seleccionarEditText(this.currentEditText);
+        this.color();
     }
     /**
      * Método que resetea el tablero para volver a empezar
@@ -301,6 +302,7 @@ public class ControllerJuego extends AppCompatActivity {
     public void borrarTodo(View view){
         this.currentEditText = null;
         this.vaciarNumeros();
+        this.color();
         this.mostrarNumerosTablero();
     }
     /**
